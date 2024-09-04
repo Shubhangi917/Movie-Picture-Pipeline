@@ -21,6 +21,9 @@ jobs:
         with:
           python-version: '3.8'
 
+      - name: Install pipenv
+        run: pip install --upgrade pipenv
+
       - name: Install dependencies
         run: pipenv install --dev
         working-directory: starter/backend
@@ -39,6 +42,9 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: '3.8'
+
+      - name: Install pipenv
+        run: pip install --upgrade pipenv
 
       - name: Install dependencies
         run: pipenv install --dev
