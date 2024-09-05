@@ -15,25 +15,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
         with:
-          node-version: 'latest'
+          python-version: '3.8'
 
-      - name: Cache Node.js modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('starter/backend/**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+      - name: Install pipenv
+        run: pip install --upgrade pipenv
 
       - name: Install dependencies
-        run: npm ci
+        run: pipenv install --dev
         working-directory: starter/backend
 
       - name: Run lint
-        run: npm run lint
+        run: |
+          pipenv run lint
         working-directory: starter/backend
 
   test:
@@ -42,25 +38,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
         with:
-          node-version: 'latest'
+          python-version: '3.8'
 
-      - name: Cache Node.js modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('starter/backend/**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+      - name: Install pipenv
+        run: pip install --upgrade pipenv
 
       - name: Install dependencies
-        run: npm ci
+        run: pipenv install --dev
         working-directory: starter/backend
 
       - name: Run tests
-        run: npm run test
+        run: |
+          pipenv run test
         working-directory: starter/backend
 
   build_and_deploy:
