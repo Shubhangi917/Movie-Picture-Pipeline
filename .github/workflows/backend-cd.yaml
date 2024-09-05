@@ -18,13 +18,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: latest
+          node-version: 'latest'
 
       - name: Cache Node.js modules
         uses: actions/cache@v3
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('starter/backend/**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
@@ -45,13 +45,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: latest
+          node-version: 'latest'
 
       - name: Cache Node.js modules
         uses: actions/cache@v3
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('starter/backend/**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
