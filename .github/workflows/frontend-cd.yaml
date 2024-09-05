@@ -75,7 +75,7 @@ jobs:
 
       - name: Configure AWS CLI
         run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_access_key_id 418941673572
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set region us-east-1
 
@@ -97,9 +97,12 @@ jobs:
           docker push 418941673572.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
 
       - name: Configure kubectl
-        run: aws eks update-kubeconfig --region us-east-1 --name cluster
+        run: |
+          aws eks update-kubeconfig --region us-east-1 --name cluster || { echo "Failed to update kubeconfig"; exit 1; }
+          kubectl config view || { echo "Failed to view kubeconfig"; exit 1; }
+          kubectl get nodes || { echo "Failed to get nodes"; exit 1; }
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl set image deployment/frontend frontend=418941673572.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
-          kubectl rollout status deployment/frontend
+          kubectl set image deployment/frontend frontend=418941673572.dkr.ecr.us-east-1.amazonaws.com/frontend:latest || { echo "Failed to set image"; exit 1; }
+          kubectl rollout status deployment/frontend || { echo "Failed to rollout status"; exit 1; }
