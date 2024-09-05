@@ -79,6 +79,9 @@ jobs:
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set region us-east-1
 
+      - name: Validate AWS CLI credentials
+        run: aws sts get-caller-identity
+
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
         with:
@@ -99,7 +102,8 @@ jobs:
       - name: Configure kubectl
         run: |
           aws eks update-kubeconfig --region us-east-1 --name cluster || { echo "Failed to update kubeconfig"; exit 1; }
-          kubectl config view || { echo "Failed to view kubeconfig"; exit 1; }
+          cat ~/.kube/config
+          kubectl config current-context
           kubectl get nodes || { echo "Failed to get nodes"; exit 1; }
 
       - name: Deploy to Kubernetes
